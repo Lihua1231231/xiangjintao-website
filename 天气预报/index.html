@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气预报</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Main Weather Card -->
+        <main class="main-card glass">
+            <header>
+                <h1 id="location">深圳 宝安</h1>
+                <p id="date">2026年1月25日 星期日</p>
+            </header>
+
+            <button id="refresh-btn" class="refresh-pill">
+                <i data-lucide="refresh-cw"></i>
+                <span>更新</span>
+            </button>
+
+            <div class="weather-info">
+                <div class="icon-container">
+                    <img id="weather-icon" src="assets/sun.png" alt="weather icon" class="floating">
+                </div>
+                <div class="temp-container">
+                    <span id="temperature">24°</span>
+                    <p id="feels-like">体感温度 26°</p>
+                </div>
+            </div>
+
+            <div class="details-row">
+                <div class="detail-item">
+                    <i data-lucide="droplet"></i>
+                    <div class="detail-info">
+                        <span id="humidity">--%</span>
+                        <small>湿度</small>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i data-lucide="cloud-rain"></i>
+                    <div class="detail-info">
+                        <span id="precip">--%</span>
+                        <small>降雨概率</small>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i data-lucide="wind"></i>
+                    <span id="wind-speed">东北风 2级</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- 7-Day Forecast -->
+        <section class="forecast-container glass">
+            <h3>未来7天预报</h3>
+            <div id="forecast-list" class="forecast-list">
+                <!-- Forecast items will be injected here by app.js -->
+            </div>
+        </section>
+
+        <!-- Sub Cards Section -->
+        <section class="sub-cards">
+            <div class="card glass">
+                <div class="card-icon hanger-bg">
+                    <i data-lucide="shirt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>穿衣建议</h3>
+                    <p id="clothing-text">建议穿短袖背心</p>
+                </div>
+            </div>
+
+            <div class="card glass">
+                <div class="card-icon suncream-bg">
+                    <i data-lucide="sparkles"></i>
+                </div>
+                <div class="card-content">
+                    <h3>紫外线/护肤</h3>
+                    <p id="uv-text">紫外线强，注意防晒</p>
+                </div>
+            </div>
+
+            <div class="card glass">
+                <div class="card-icon reminder-bg">
+                    <i data-lucide="bell"></i>
+                </div>
+                <div class="card-content">
+                    <h3>天气提醒</h3>
+                    <p id="reminder-text">正在分析天气数据...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Bar (Soft styled) -->
+        <div class="search-container glass">
+            <input type="text" id="city-search" placeholder="城市+区名，比如深圳宝安">
+            <button id="search-btn"><i data-lucide="search"></i></button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
