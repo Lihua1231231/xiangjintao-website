@@ -123,6 +123,27 @@ function App() {
                     <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">OpenAI</span>
                   </div>
                 </a>
+
+                {/* 第三个作品：天气预报 */}
+                <a
+                  href="https://weather.xiangjintao.top"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="snap-start shrink-0 w-64 p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="text-white font-bold text-lg group-hover:text-blue-200 transition-colors">
+                      Weather Forecast
+                    </h4>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    治愈系玻璃拟态设计，基于和风天气 API 的精准气象助手。
+                  </p>
+                  <div className="mt-4 flex gap-2">
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">Vanilla JS</span>
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">QWeather</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
