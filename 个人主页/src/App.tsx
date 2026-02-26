@@ -144,6 +144,36 @@ function App() {
                     <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">QWeather</span>
                   </div>
                 </a>
+
+                {/* 第四个作品：Bilibili 下载器 */}
+                <a
+                  href="https://github.com/Lihua1231231/bilibili-downloader"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="snap-start shrink-0 w-64 p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="p-1.5 bg-pink-500/20 rounded-lg">
+                      <svg className="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </div>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-300 border border-pink-500/20">
+                      Open Source
+                    </span>
+                  </div>
+                  <h4 className="text-white font-bold text-lg group-hover:text-pink-200 transition-colors">
+                    Bilibili Downloader
+                  </h4>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    基于 Python + Flask 的高效下载工具。支持 4K 解析、音视频自动合并及片段裁剪。
+                  </p>
+                  <div className="mt-4 flex gap-2">
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">Python</span>
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">Flask</span>
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">FFmpeg</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
