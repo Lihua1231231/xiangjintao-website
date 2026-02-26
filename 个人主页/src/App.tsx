@@ -126,7 +126,7 @@ function App() {
 
                 {/* 第三个作品：天气预报 */}
                 <a
-                  href="https://weather.xiangjintao.top"
+                  href="https://luoluoweather.xiangjintao.top"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="snap-start shrink-0 w-64 p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
