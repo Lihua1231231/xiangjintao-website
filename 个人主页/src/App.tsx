@@ -87,10 +87,41 @@ function App() {
                   href="https://tracker.xiangjintao.top"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="snap-start shrink-0 w-64 p-5 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md transition-all border border-white/10"
+                  className="snap-start shrink-0 w-64 p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
                 >
-                  <h5 className="text-white font-bold">HC Tracker</h5>
-                  <p className="text-white/80 text-sm mt-2">基于 React 19 + Tailwind v4 的智能招聘管理系统</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="text-white font-bold text-lg group-hover:text-orange-200 transition-colors">
+                      HC Tracker
+                    </h4>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    基于 React 19 + Tailwind v4 的智能招聘管理系统，实现全流程招聘追踪。
+                  </p>
+                  <div className="mt-4 flex gap-2">
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">React 19</span>
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">Tailwind v4</span>
+                  </div>
+                </a>
+
+                {/* 第二个作品：招聘广告生成器 */}
+                <a
+                  href="https://jd.xiangjintao.top"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="snap-start shrink-0 w-64 p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="text-white font-bold text-lg group-hover:text-orange-200 transition-colors">
+                      JD Generator
+                    </h4>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    基于 Next.js 14 构建的智能招聘广告生成器，一键输出专业文案。
+                  </p>
+                  <div className="mt-4 flex gap-2">
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">Next.js 14</span>
+                    <span className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">OpenAI</span>
+                  </div>
                 </a>
               </div>
             </div>
