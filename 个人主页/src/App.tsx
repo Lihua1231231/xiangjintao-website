@@ -1,4 +1,4 @@
-import { Download } from 'lucide-react';
+import { Download, Phone, MessageCircle, Mail } from 'lucide-react';
 import { portfolioData } from './portfolioData';
 import { ImageCarousel } from './components/ImageCarousel';
 import { AIChat } from './components/AIChat';
@@ -16,7 +16,7 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
           {/* 左侧：照片焦点卡片 - 上方图片轮播 + 下方紧凑文字 */}
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col" style={{ minHeight: '600px' }}>
+          <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl shadow-md overflow-hidden flex flex-col">
             {/* 图片轮播区域 - 锁定高度防止跳动 */}
             <div className="h-[450px] overflow-hidden rounded-2xl relative">
               <ImageCarousel
@@ -25,26 +25,54 @@ function App() {
               />
             </div>
 
-            {/* 底部文字区域 - 紧凑排列 */}
-            <div className="p-5 space-y-3">
-              {/* 姓名 */}
-              <h1 className="text-2xl font-serif font-bold text-warm-text">
-                {portfolioData.name}
-              </h1>
+            {/* 底部文字区域 - 极其紧凑 */}
+            <div className="p-4 flex-1 flex flex-col">
+              <div className="space-y-0.5">
+                {/* 姓名 */}
+                <h1 className="text-xl font-serif font-bold text-warm-text">
+                  {portfolioData.name}
+                </h1>
 
-              {/* 简介 */}
-              <p className="text-sm text-warm-brown">
-                {portfolioData.tagline}
-              </p>
+                {/* 简介 */}
+                <p className="text-xs text-warm-brown">
+                  {portfolioData.tagline}
+                </p>
+              </div>
 
-              {/* 下载简历按钮 */}
-              <button
-                onClick={handleDownloadResume}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-warm-brown hover:bg-warm-brown/90 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105 shadow-md"
-              >
-                <Download className="w-5 h-5" />
-                下载简历
-              </button>
+              {/* 极其紧凑的分割线 */}
+              <div className="my-4 border-t border-white/10" />
+
+              {/* 联系信息区域 - 压缩间距 */}
+              <div>
+                <h3 className="text-[9px] font-bold tracking-widest text-[#A68D74]/50 uppercase mb-2">
+                  CONTACT
+                </h3>
+                <div className="space-y-0.5">
+                  <div className="group flex items-center gap-2.5 text-sm text-[#A68D74] hover:bg-white/10 rounded-lg px-2 py-1.5 -mx-2 transition-all duration-200">
+                    <Phone className="w-3.5 h-3.5 text-[#A68D74]/60 transition-colors group-hover:text-[#A68D74]" />
+                    <span>18673129182</span>
+                  </div>
+                  <div className="group flex items-center gap-2.5 text-sm text-[#A68D74] hover:bg-white/10 rounded-lg px-2 py-1.5 -mx-2 transition-all duration-200">
+                    <MessageCircle className="w-3.5 h-3.5 text-[#A68D74]/60 transition-colors group-hover:text-[#A68D74]" />
+                    <span>xjt18973111415</span>
+                  </div>
+                  <div className="group flex items-center gap-3 text-sm text-[#A68D74] hover:bg-white/10 rounded-xl px-2 py-2 -mx-2 transition-all duration-200">
+                    <Mail className="w-4 h-4 text-[#A68D74]/60 transition-colors group-hover:text-[#A68D74]" />
+                    <span>3294182452@qq.com</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 下载简历按钮 - 紧随其后 */}
+              <div className="mt-6 pt-4 border-t border-white/10">
+                <button
+                  onClick={handleDownloadResume}
+                  className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-warm-brown/10 border border-warm-brown/20 hover:bg-warm-brown/20 text-warm-brown rounded-xl font-medium transition-all duration-200 hover:scale-[1.02] shadow-sm backdrop-blur-sm text-sm"
+                >
+                  <Download className="w-4 h-4" />
+                  下载简历
+                </button>
+              </div>
             </div>
           </div>
 
