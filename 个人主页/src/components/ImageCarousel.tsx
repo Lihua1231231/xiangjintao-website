@@ -75,7 +75,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, alt = "照
                 {images.map((img, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentIndex ? 'opacity-100' : 'opacity-0'
+                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                             }`}
                     >
                         <img
@@ -90,7 +90,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, alt = "照
             {/* 左右切换按钮（悬停时显示）*/}
             <button
                 onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm z-10"
+                className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm z-20"
                 aria-label="上一张"
             >
                 <ChevronLeft className="w-6 h-6" />
@@ -98,14 +98,14 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, alt = "照
 
             <button
                 onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm z-10"
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm z-20"
                 aria-label="下一张"
             >
                 <ChevronRight className="w-6 h-6" />
             </button>
 
             {/* 分页点（底部居中）*/}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/30 backdrop-blur-sm px-3 py-2 rounded-full z-10">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/30 backdrop-blur-sm px-3 py-2 rounded-full z-20">
                 {images.map((_, index) => (
                     <button
                         key={index}

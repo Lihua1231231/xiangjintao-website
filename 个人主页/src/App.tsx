@@ -125,7 +125,7 @@ function App() {
                     href={work.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="snap-start shrink-0 w-[18rem] sm:w-64 p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
+                    className="snap-start shrink-0 w-full max-w-[16rem] p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
                   >
                     <div className="flex justify-between items-start mb-2">
                       {work.iconType === 'bilibili' ? (
