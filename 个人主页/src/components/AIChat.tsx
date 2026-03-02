@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Loader2, Bot, User } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
     role: 'user' | 'assistant';
@@ -7,17 +8,13 @@ interface Message {
 }
 
 interface AIChatProps {
-    apiKey: string;
     model: string;
-    apiEndpoint: string;
     systemPrompt: string;
     welcomeMessage: string;
 }
 
 export const AIChat: React.FC<AIChatProps> = ({
-    apiKey,
     model,
-    apiEndpoint,
     systemPrompt,
     welcomeMessage,
 }) => {
@@ -44,12 +41,15 @@ export const AIChat: React.FC<AIChatProps> = ({
         setInput('');
         setIsLoading(true);
 
+        // 创建一个空的助手消息用于流式更新
+        const assistantMessage: Message = { role: 'assistant', content: '' };
+        setMessages(prev => [...prev, assistantMessage]);
+
         try {
-            const response = await fetch(apiEndpoint, {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`,
                 },
                 body: JSON.stringify({
                     model: model,
@@ -58,31 +58,54 @@ export const AIChat: React.FC<AIChatProps> = ({
                         ...messages.map(m => ({ role: m.role, content: m.content })),
                         { role: 'user', content: input }
                     ],
-                    temperature: 0.7,
-                    max_tokens: 1000,
                 }),
             });
 
             if (!response.ok) {
-                throw new Error(`API 请求失败: ${response.status}`);
+                throw new Error(`请求失败: ${response.status}`);
             }
 
-            const data = await response.json();
-            const assistantMessage: Message = {
-                role: 'assistant',
-                content: data.choices[0]?.message?.content || '抱歉，我现在无法回答。',
-            };
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+            let accumulatedContent = '';
 
-            setMessages(prev => [...prev, assistantMessage]);
+            if (reader) {
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const dataStr = line.slice(6);
+                            if (dataStr === '[DONE]') continue;
+                            try {
+                                const data = JSON.parse(dataStr);
+                                const content = data.choices[0]?.delta?.content || '';
+                                accumulatedContent += content;
+
+                                // 更新最后一条消息（助手消息）
+                                setMessages(prev => {
+                                    const newMessages = [...prev];
+                                    newMessages[newMessages.length - 1].content = accumulatedContent;
+                                    return newMessages;
+                                });
+                            } catch (e) {
+                                console.error('解析流数据失败', e);
+                            }
+                        }
+                    }
+                }
+            }
         } catch (error) {
             console.error('AI 对话错误:', error);
-            setMessages(prev => [
-                ...prev,
-                {
-                    role: 'assistant',
-                    content: '抱歉，我遇到了一些技术问题。请稍后再试，或者直接联系向金涛。',
-                },
-            ]);
+            setMessages(prev => {
+                const newMessages = [...prev];
+                newMessages[newMessages.length - 1].content = '抱歉，我遇到了一些技术问题。请稍后再试，或者直接联系向金涛。';
+                return newMessages;
+            });
         } finally {
             setIsLoading(false);
         }
@@ -113,8 +136,8 @@ export const AIChat: React.FC<AIChatProps> = ({
                         {/* 头像 */}
                         <div
                             className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${message.role === 'user'
-                                    ? 'bg-warm-accent'
-                                    : 'bg-warm-brown'
+                                ? 'bg-warm-accent'
+                                : 'bg-warm-brown'
                                 }`}
                         >
                             {message.role === 'user' ? (
@@ -127,18 +150,20 @@ export const AIChat: React.FC<AIChatProps> = ({
                         {/* 消息内容 */}
                         <div
                             className={`flex-1 px-4 py-3 rounded-2xl ${message.role === 'user'
-                                    ? 'bg-warm-accent text-white'
-                                    : 'bg-cream-200 text-warm-text'
+                                ? 'bg-warm-accent text-white'
+                                : 'bg-cream-200 text-warm-text'
                                 }`}
                             style={{ maxWidth: '80%' }}
                         >
-                            <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                            <div className="prose prose-sm max-w-none">
+                                <ReactMarkdown>{message.content}</ReactMarkdown>
+                            </div>
                         </div>
                     </div>
                 ))}
 
                 {/* 加载指示器 */}
-                {isLoading && (
+                {isLoading && messages[messages.length - 1].content === '' && (
                     <div className="flex gap-3">
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-warm-brown flex items-center justify-center">
                             <Bot className="w-5 h-5 text-white" />
@@ -169,7 +194,7 @@ export const AIChat: React.FC<AIChatProps> = ({
                         disabled={!input.trim() || isLoading}
                         className="px-6 py-3 bg-warm-brown hover:bg-warm-brown/90 disabled:bg-warm-brown/50 text-white rounded-xl transition-colors duration-200 flex items-center gap-2 font-medium"
                     >
-                        {isLoading ? (
+                        {isLoading && messages[messages.length - 1].content === '' ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
                             <>

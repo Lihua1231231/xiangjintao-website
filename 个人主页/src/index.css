@@ -13,6 +13,13 @@
   --color-warm-text: #2c2416;
   --color-warm-accent: #d4a574;
 
+  /* 语义化 Token */
+  --color-contact-icon: #A68D74;
+  --color-work-orange: #fed7aa; /* orange-200 */
+  --color-work-blue: #bfdbfe;   /* blue-200 */
+  --color-work-pink: #fbcfe8;   /* pink-200 */
+  --color-bilibili-pink: #ec4899; /* pink-500 equivalent */
+
   /* 字体家族 */
   --font-family-serif: Merriweather, 'ZCOOL KaiTi', serif;
   --font-family-sans: Inter, 'Noto Sans SC', sans-serif;
