@@ -23,13 +23,13 @@ function App() {
     <div className="min-h-screen bg-cream-100 py-6 px-4 md:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-4">
 
-        {/* 紧凑的2列 Bento Grid 布局 */}
+        {/* 紧凑的 Bento Grid 布局 (1:1等分比例) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-          {/* 左侧：照片焦点卡片 - 上方图片轮播 + 下方紧凑文字 */}
-          <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl shadow-md overflow-hidden flex flex-col">
+          {/* 左侧：照片焦点卡片 - 占 1 列 (50%) */}
+          <div className="lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl shadow-md overflow-hidden flex flex-col h-full w-full">
             {/* 图片轮播区域 - 锁定高度改为比例自适应 */}
-            <div className="aspect-[4/3] sm:aspect-[3/4] lg:aspect-square overflow-hidden rounded-2xl relative">
+            <div className="aspect-[4/3] sm:aspect-[3/4] lg:aspect-square overflow-hidden relative">
               <ImageCarousel
                 images={portfolioData.photos}
                 alt={`${portfolioData.name}的照片`}
@@ -84,78 +84,98 @@ function App() {
             </div>
           </div>
 
-          {/* 右侧：信息中心卡片 (ISFJ + 兴趣爱好) */}
-          <div className="bg-gradient-to-br from-warm-accent to-warm-brown rounded-2xl shadow-md p-6 text-white flex flex-col min-h-[500px] lg:min-h-[600px]">
-            {/* ISFJ 部分 */}
-            <div className="pb-5 border-b border-white/20">
-              <div className="text-4xl sm:text-5xl font-serif font-bold mb-2">
-                {portfolioData.about.mbti}
+          {/* 右侧容器：分成上下两块，通过 flex-col 分配高度，占 1 列 (50%) */}
+          <div className="lg:col-span-1 flex flex-col gap-4">
+
+            {/* 右上：信息中心卡片 (ISFJ + 兴趣爱好) - 极致压缩, h-fit */}
+            <div className="bg-gradient-to-br from-warm-accent to-warm-brown rounded-2xl shadow-md p-4 sm:p-5 text-white flex flex-col flex-none h-fit">
+              {/* ISFJ 部分 */}
+              <div className="pb-3 border-b border-white/20">
+                <div className="text-3xl sm:text-4xl font-serif font-bold mb-1">
+                  {portfolioData.about.mbti}
+                </div>
+                <div className="text-xs sm:text-sm leading-relaxed opacity-95">
+                  {portfolioData.about.mbtiDescription}
+                </div>
               </div>
-              <div className="text-sm sm:text-base leading-relaxed opacity-95">
-                {portfolioData.about.mbtiDescription}
+
+              {/* 兴趣爱好部分 */}
+              <div className="flex-1 pt-3">
+                <h3 className="text-sm font-medium mb-2 opacity-90">兴趣爱好</h3>
+                <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+                  {portfolioData.about.hobbies.map((hobby, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-2.5 py-1.5 hover:bg-white/20 transition-colors"
+                    >
+                      <span className="text-lg">{hobby.icon}</span>
+                      <span className="text-xs font-medium">{hobby.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* 兴趣爱好部分 */}
-            <div className="flex-1 pt-5">
-              <h3 className="text-lg font-medium mb-4 opacity-90">兴趣爱好</h3>
-              <div className="grid grid-cols-2 gap-3">
-                {portfolioData.about.hobbies.map((hobby, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 sm:px-4 sm:py-3 hover:bg-white/20 transition-colors"
-                  >
-                    <span className="text-xl sm:text-2xl">{hobby.icon}</span>
-                    <span className="text-xs sm:text-sm font-medium">{hobby.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 横向滑动作品集 */}
-            <div className="mt-8 pt-6 border-t border-white/10">
-              <div className="flex items-center gap-2 mb-3">
+            {/* 右下/下方：横向滑动作品集 - 彻底拉满剩余的所有垂直空间 */}
+            <div className="flex-1 bg-gradient-to-br from-warm-brown to-warm-accent rounded-2xl shadow-md p-5 sm:p-6 text-white flex flex-col overflow-hidden relative">
+              <div className="flex items-center gap-2 mb-3 shrink-0">
                 <h3 className="text-[10px] text-white/60 uppercase tracking-widest m-0">SELECTED WORKS</h3>
                 <span className="text-[10px] text-white/40 tracking-widest">(可以点击查看)</span>
               </div>
-              <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide">
+              <div className="flex-1 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide items-stretch">
                 {portfolioData.works.map((work, index) => (
                   <a
                     key={index}
                     href={work.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="snap-start shrink-0 w-full max-w-[16rem] p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md"
+                    className="flex flex-col snap-start shrink-0 w-full max-w-[16rem] h-full p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md relative overflow-hidden"
                   >
-                    <div className="flex justify-between items-start mb-2">
-                      {work.iconType === 'bilibili' ? (
-                        <div className="p-1.5 bg-bilibili-pink/20 rounded-lg">
-                          <svg className="w-5 h-5 text-bilibili-pink/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                          </svg>
-                        </div>
-                      ) : null}
-                      {work.badge && (
-                        <span className={`text-[10px] px-2 py-0.5 rounded-full ${work.iconType === 'bilibili' ? 'bg-bilibili-pink/10 text-bilibili-pink/60 border border-bilibili-pink/20' : 'bg-white/10 text-white/80'}`}>
-                          {work.badge}
-                        </span>
-                      )}
-                    </div>
-                    <h4 className={`text-white font-bold text-lg transition-colors ${work.hoverColor === 'orange' ? 'group-hover:text-work-orange' :
-                      work.hoverColor === 'blue' ? 'group-hover:text-work-blue' :
-                        work.hoverColor === 'pink' ? 'group-hover:text-work-pink' : ''
-                      }`}>
-                      {work.title}
-                    </h4>
-                    <p className="text-white/70 text-sm leading-relaxed mt-1">
-                      {work.description}
-                    </p>
-                    <div className="mt-4 flex gap-2 flex-wrap">
-                      {work.tags.map((tag, tIdx) => (
-                        <span key={tIdx} className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80">
-                          {tag}
-                        </span>
-                      ))}
+                    {/* 背景悬停图片 */}
+                    {work.image && (
+                      <img
+                        src={work.image}
+                        alt={work.title}
+                        className="absolute inset-0 w-full h-full object-cover z-0 opacity-0 scale-110 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-100"
+                      />
+                    )}
+                    {/* 悬停时的半透明黑色遮罩，确保文字清晰 */}
+                    {work.image && (
+                      <div className="absolute inset-0 bg-black/50 z-0 opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100" />
+                    )}
+
+                    {/* 内部文字容器 relative 上浮 */}
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="flex justify-between items-start mb-2">
+                        {work.iconType === 'bilibili' ? (
+                          <div className="p-1.5 bg-bilibili-pink/20 rounded-lg">
+                            <svg className="w-5 h-5 text-bilibili-pink/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                          </div>
+                        ) : <div />}
+                        {work.badge && (
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full ${work.iconType === 'bilibili' ? 'bg-bilibili-pink/10 text-bilibili-pink/60 border border-bilibili-pink/20' : 'bg-white/10 text-white/80'}`}>
+                            {work.badge}
+                          </span>
+                        )}
+                      </div>
+                      <h4 className={`text-white font-bold text-lg transition-colors ${work.hoverColor === 'orange' ? 'group-hover:text-work-orange' :
+                        work.hoverColor === 'blue' ? 'group-hover:text-work-blue' :
+                          work.hoverColor === 'pink' ? 'group-hover:text-work-pink' : ''
+                        }`}>
+                        {work.title}
+                      </h4>
+                      <p className="text-white/70 text-base leading-relaxed mt-1 group-hover:text-white/90 flex-grow">
+                        {work.description}
+                      </p>
+                      <div className="mt-4 flex gap-2 flex-wrap">
+                        {work.tags.map((tag, tIdx) => (
+                          <span key={tIdx} className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80 group-hover:bg-white/20 group-hover:text-white">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </a>
                 ))}

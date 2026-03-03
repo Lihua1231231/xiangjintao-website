@@ -130,18 +130,13 @@ export const AIChat: React.FC<AIChatProps> = ({
                         className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                     >
                         {/* 头像 */}
-                        <div
-                            className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${message.role === 'user'
-                                ? 'bg-warm-accent'
-                                : 'bg-warm-brown'
-                                }`}
-                        >
-                            {message.role === 'user' ? (
+                        {message.role === 'user' ? (
+                            <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-warm-accent">
                                 <User className="w-5 h-5 text-white" />
-                            ) : (
-                                <Bot className="w-5 h-5 text-white" />
-                            )}
-                        </div>
+                            </div>
+                        ) : (
+                            <img src="/avatar.jpg" alt="向金涛" className="flex-shrink-0 w-8 h-8 rounded-full object-cover shadow-sm" />
+                        )}
 
                         {/* 消息内容 */}
                         <div
