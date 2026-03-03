@@ -167,8 +167,6 @@ function App() {
         {/* 底部：AI 对话区域 */}
         <div className="bg-white rounded-2xl shadow-md p-6">
           <AIChat
-            model={portfolioData.ai.model}
-            systemPrompt={portfolioData.ai.systemPrompt}
             welcomeMessage={portfolioData.ai.welcomeMessage}
           />
         </div>

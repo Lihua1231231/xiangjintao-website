@@ -8,14 +8,10 @@ interface Message {
 }
 
 interface AIChatProps {
-    model: string;
-    systemPrompt: string;
     welcomeMessage: string;
 }
 
 export const AIChat: React.FC<AIChatProps> = ({
-    model,
-    systemPrompt,
     welcomeMessage,
 }) => {
     const [messages, setMessages] = useState<Message[]>([
