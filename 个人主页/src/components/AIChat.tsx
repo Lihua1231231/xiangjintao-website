@@ -52,12 +52,7 @@ export const AIChat: React.FC<AIChatProps> = ({
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    model: model,
-                    messages: [
-                        { role: 'system', content: systemPrompt },
-                        ...messages.map(m => ({ role: m.role, content: m.content })),
-                        { role: 'user', content: input }
-                    ],
+                    messages: messages.map(m => ({ role: m.role, content: m.content })),
                 }),
             });
 

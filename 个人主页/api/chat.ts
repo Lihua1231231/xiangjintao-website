@@ -1,14 +1,24 @@
-export const config = {
-    runtime: 'edge',
-};
+import fs from 'fs';
+import path from 'path';
 
-export default async function handler(req: Request) {
+export default async function handler(req: any, res: any) {
     if (req.method !== 'POST') {
-        return new Response('Method Not Allowed', { status: 405 });
+        return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     try {
-        const { messages, model } = await req.json();
+        const { messages } = req.body;
+
+        // 读取知识库内容
+        const kbPath = path.join(process.cwd(), 'profile_knowledge.md');
+        let kbContent = '';
+        try {
+            kbContent = fs.readFileSync(kbPath, 'utf8');
+        } catch (e) {
+            console.error('读取知识库失败:', e);
+        }
+
+        const systemPrompt = `你现在是向金涛的官方 AI 助手。请严格基于以下提供的知识库信息回答问题。如果用户的提问在知识库中找不到答案，请礼貌地表示你目前不掌握该信息，绝对禁止自行编造或幻觉。\n\n【知识库内容】\n${kbContent}`;
 
         const response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
             method: 'POST',
@@ -17,32 +27,39 @@ export default async function handler(req: Request) {
                 'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
             },
             body: JSON.stringify({
-                model: model || 'deepseek-ai/DeepSeek-V3',
-                messages: messages,
+                model: 'Qwen/Qwen2.5-72B-Instruct',
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    ...messages
+                ],
                 stream: true,
             }),
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            return new Response(JSON.stringify(errorData), {
-                status: response.status,
-                headers: { 'Content-Type': 'application/json' },
-            });
+            const errorText = await response.text();
+            return res.status(response.status).json({ error: errorText });
         }
 
-        // 将 SiliconFlow 的流直接转发给客户端
-        return new Response(response.body, {
-            headers: {
-                'Content-Type': 'text/event-stream',
-                'Cache-Control': 'no-cache',
-                'Connection': 'keep-alive',
-            },
-        });
+        // 设置响应头以支持流式传输
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+
+        if (reader) {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const chunk = decoder.decode(value);
+                res.write(chunk);
+            }
+        }
+        res.end();
     } catch (error: any) {
-        return new Response(JSON.stringify({ error: error.message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        console.error('Chat API Error:', error);
+        return res.status(500).json({ error: error.message });
     }
 }
