@@ -3,7 +3,7 @@ import { portfolioData } from './portfolioData';
 import type { ContactInfo } from './portfolioData';
 import { ImageCarousel } from './components/ImageCarousel';
 import { AIChat } from './components/AIChat';
-
+import { ProjectCard } from './components/ProjectCard';
 // 图标映射
 const ContactIcon = ({ type, className }: { type: ContactInfo['icon'], className?: string }) => {
   switch (type) {
@@ -20,8 +20,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-100 py-6 px-4 md:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-4">
+    <div className="relative min-h-screen bg-cream-100 py-6 px-4 md:px-6 lg:px-8 overflow-hidden">
+      {/* 底部环境深度：3 个极慢运动的环境光晕球 */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/5 blur-[160px] animate-floating" />
+        <div className="absolute top-[40%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-violet-600/5 blur-[160px] animate-floating" style={{ animationDelay: '-5s' }} />
+        <div className="absolute bottom-[-20%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-amber-500/5 blur-[160px] animate-floating" style={{ animationDelay: '-10s' }} />
+      </div>
+
+      <div className="max-w-6xl mx-auto space-y-4 relative z-10">
 
         {/* 紧凑的 Bento Grid 布局 (1:1等分比例) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -124,70 +131,7 @@ function App() {
               </div>
               <div className="flex-1 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide items-stretch">
                 {portfolioData.works.map((work, index) => (
-                  <a
-                    key={index}
-                    href={work.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col snap-start shrink-0 w-full max-w-[16rem] h-full p-5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md relative overflow-hidden"
-                  >
-                    {/* 背景悬停图片 */}
-                    {work.image && (
-                      <img
-                        src={work.image}
-                        alt={work.title}
-                        className="absolute inset-0 w-full h-full object-cover z-0 opacity-0 scale-110 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-100"
-                      />
-                    )}
-                    {/* 悬停时的半透明黑色遮罩，确保文字清晰 */}
-                    {work.image && (
-                      <div className="absolute inset-0 bg-black/50 z-0 opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100" />
-                    )}
-
-                    {/* 内部文字容器 relative 上浮 */}
-                    <div className="relative z-10 flex flex-col h-full">
-                      <div className="flex justify-between items-start mb-2">
-                        {work.iconType === 'bilibili' ? (
-                          <div className="p-1.5 bg-bilibili-pink/20 rounded-lg">
-                            <svg className="w-5 h-5 text-bilibili-pink/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                          </div>
-                        ) : <div />}
-                        {work.badge && (
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full ${work.iconType === 'bilibili' ? 'bg-bilibili-pink/10 text-bilibili-pink/60 border border-bilibili-pink/20' : 'bg-white/10 text-white/80'}`}>
-                            {work.badge}
-                          </span>
-                        )}
-                      </div>
-                      <h4 className={`text-white font-bold text-lg transition-colors ${work.hoverColor === 'orange' ? 'group-hover:text-work-orange' :
-                        work.hoverColor === 'blue' ? 'group-hover:text-work-blue' :
-                          work.hoverColor === 'pink' ? 'group-hover:text-work-pink' : ''
-                        }`}>
-                        {work.title}
-                      </h4>
-                      <div className="text-base leading-relaxed mt-2 flex-grow flex flex-col gap-2">
-                        {work.description.split('\n\n').map((paragraph, pIdx) => (
-                          <p
-                            key={pIdx}
-                            className={`whitespace-pre-line transition-colors ${pIdx === 0
-                                ? 'text-white/95 font-medium group-hover:text-white'
-                                : 'text-white/70 group-hover:text-white/90'
-                              }`}
-                          >
-                            {paragraph}
-                          </p>
-                        ))}
-                      </div>
-                      <div className="mt-4 flex gap-2 flex-wrap">
-                        {work.tags.map((tag, tIdx) => (
-                          <span key={tIdx} className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80 group-hover:bg-white/20 group-hover:text-white">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </a>
+                  <ProjectCard key={index} work={work} />
                 ))}
               </div>
             </div>
