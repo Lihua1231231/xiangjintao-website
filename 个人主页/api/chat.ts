@@ -12,6 +12,9 @@ export default async function handler(req: Request) {
     try {
         const { messages } = await req.json();
 
+        // 过滤器：清理掉前端可能传来的历史系统提示词，防止角色设定失效
+        const safeMessages = messages.filter((m: any) => m.role !== 'system');
+
         const systemPrompt = `${SOUL_PROMPT}\n\n以下是向金涛的客观背景资料：\n${PROFILE_KNOWLEDGE}`;
 
         const response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
@@ -24,7 +27,7 @@ export default async function handler(req: Request) {
                 model: 'Qwen/Qwen2.5-72B-Instruct',
                 messages: [
                     { role: 'system', content: systemPrompt },
-                    ...messages
+                    ...safeMessages
                 ],
                 stream: true,
             }),
