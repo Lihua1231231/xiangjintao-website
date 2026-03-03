@@ -166,9 +166,19 @@ function App() {
                         }`}>
                         {work.title}
                       </h4>
-                      <p className="text-white/70 text-base leading-relaxed mt-1 group-hover:text-white/90 flex-grow">
-                        {work.description}
-                      </p>
+                      <div className="text-base leading-relaxed mt-2 flex-grow flex flex-col gap-2">
+                        {work.description.split('\n\n').map((paragraph, pIdx) => (
+                          <p
+                            key={pIdx}
+                            className={`whitespace-pre-line transition-colors ${pIdx === 0
+                                ? 'text-white/95 font-medium group-hover:text-white'
+                                : 'text-white/70 group-hover:text-white/90'
+                              }`}
+                          >
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
                       <div className="mt-4 flex gap-2 flex-wrap">
                         {work.tags.map((tag, tIdx) => (
                           <span key={tIdx} className="text-[10px] px-2 py-1 bg-white/10 rounded-full text-white/80 group-hover:bg-white/20 group-hover:text-white">
