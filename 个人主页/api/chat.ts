@@ -9,16 +9,25 @@ export default async function handler(req: any, res: any) {
     try {
         const { messages } = req.body;
 
-        // 读取知识库内容
         const kbPath = path.join(process.cwd(), 'profile_knowledge.md');
+        const soulPath = path.join(process.cwd(), 'soul_file.md');
+
         let kbContent = '';
+        let soulContent = '';
+
         try {
             kbContent = fs.readFileSync(kbPath, 'utf8');
         } catch (e) {
-            console.error('读取知识库失败:', e);
+            console.error('读取 profile_knowledge.md 失败:', e);
         }
 
-        const systemPrompt = `你现在是向金涛的官方 AI 助手。请严格基于以下提供的知识库信息回答问题。如果用户的提问在知识库中找不到答案，请礼貌地表示你目前不掌握该信息，绝对禁止自行编造或幻觉。\n\n【知识库内容】\n${kbContent}`;
+        try {
+            soulContent = fs.readFileSync(soulPath, 'utf8');
+        } catch (e) {
+            console.error('读取 soul_file.md 失败:', e);
+        }
+
+        const systemPrompt = `${soulContent}\n\n以下是向金涛的客观背景资料：\n${kbContent}`;
 
         const response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
             method: 'POST',
