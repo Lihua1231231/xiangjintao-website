@@ -137,8 +137,9 @@ function App() {
                     );
                     const className = "flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-2.5 py-1.5 hover:bg-white/20 transition-colors";
                     return hobby.link ? (
-                      <a key={index} href={hobby.link} target="_blank" rel="noopener noreferrer" className={className}>
+                      <a key={index} href={hobby.link} target="_blank" rel="noopener noreferrer" className={className + " cursor-pointer relative group"}>
                         {content}
+                        <span className="ml-auto text-[10px] opacity-60 group-hover:opacity-100 transition-opacity">&#x2197;</span>
                       </a>
                     ) : (
                       <div key={index} className={className}>
