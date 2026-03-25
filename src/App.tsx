@@ -128,15 +128,24 @@ function App() {
               <div className="flex-1 pt-3">
                 <h3 className="text-sm font-medium mb-2 opacity-90">兴趣爱好</h3>
                 <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
-                  {portfolioData.about.hobbies.map((hobby, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-2.5 py-1.5 hover:bg-white/20 transition-colors"
-                    >
-                      <span className="text-lg">{hobby.icon}</span>
-                      <span className="text-xs font-medium">{hobby.label}</span>
-                    </div>
-                  ))}
+                  {portfolioData.about.hobbies.map((hobby, index) => {
+                    const content = (
+                      <>
+                        <span className="text-lg">{hobby.icon}</span>
+                        <span className="text-xs font-medium">{hobby.label}</span>
+                      </>
+                    );
+                    const className = "flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-2.5 py-1.5 hover:bg-white/20 transition-colors";
+                    return hobby.link ? (
+                      <a key={index} href={hobby.link} target="_blank" rel="noopener noreferrer" className={className}>
+                        {content}
+                      </a>
+                    ) : (
+                      <div key={index} className={className}>
+                        {content}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

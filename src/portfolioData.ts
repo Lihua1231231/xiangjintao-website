@@ -115,7 +115,8 @@ export const portfolioData = {
       { label: "骑行", icon: "🚴" },
       { label: "电吉他", icon: "🎸" },
       { label: "电贝斯", icon: "🎵" },
-      { label: "播音主持", icon: "🎙️" }
+      { label: "播音主持", icon: "🎙️" },
+      { label: "Vibe-coding", icon: "💻", link: "/vibe-coding.html" }
     ]
   },
 

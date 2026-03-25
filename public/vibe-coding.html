@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe-coding - 向金涛</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 48px;
+      font-size: 0.95rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: #16213e;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card img {
+      width: 100%;
+      display: block;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .card img:hover { opacity: 0.9; }
+    .card-body {
+      padding: 16px 20px;
+    }
+    .card-body h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .card-body p {
+      font-size: 0.85rem;
+      color: #999;
+      line-height: 1.5;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 32px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">&larr; Back</a>
+    <h1>My Vibe-coding Setup</h1>
+    <p class="subtitle">AI-powered development workflow</p>
+    <div class="grid">
+      <div class="card">
+        <img src="/vibe-coding-1.jpg" alt="Gemini Ultra" onclick="openLightbox(this.src)">
+        <div class="card-body">
+          <h3>Gemini Ultra</h3>
+          <p>Google Gemini Ultra membership for advanced AI capabilities.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/vibe-coding-2.jpg" alt="Claude Code Max" onclick="openLightbox(this.src)">
+        <div class="card-body">
+          <h3>Claude Code Max</h3>
+          <p>Claude Code Max plan with 20x usage — Opus 4.6 with 1M context.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/vibe-coding-3.jpg" alt="Agent Team Mode" onclick="openLightbox(this.src)">
+        <div class="card-body">
+          <h3>Agent Team Mode</h3>
+          <p>Multiple AI agents collaborating in parallel on different tasks.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="/vibe-coding-4.png" alt="Multi Claude Code" onclick="openLightbox(this.src)">
+        <div class="card-body">
+          <h3>Multi Claude Code</h3>
+          <p>Running multiple Claude Code instances simultaneously for maximum productivity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Preview">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
