@@ -61,7 +61,7 @@ export default async function handler(req: Request) {
                 'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
             },
             body: JSON.stringify({
-                model: 'MiniMax/MiniMax-M1',
+                model: 'Pro/MiniMaxAI/MiniMax-M2.5',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     ...safeMessages
