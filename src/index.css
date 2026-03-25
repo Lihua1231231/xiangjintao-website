@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=ZCOOL+KaiTi&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* 自定义颜色 */
+  --color-cream-50: #fdfcfa;
+  --color-cream-100: #faf7f0;
+  --color-cream-200: #f5ede1;
+  --color-cream-300: #ebe0d0;
+
+  --color-warm-brown: #8b6f47;
+  --color-warm-text: #2c2416;
+  --color-warm-accent: #d4a574;
+
+  /* 语义化 Token */
+  --color-contact-icon: #A68D74;
+  --color-work-orange: #fed7aa;
+  /* orange-200 */
+  --color-work-blue: #bfdbfe;
+  /* blue-200 */
+  --color-work-pink: #fbcfe8;
+  /* pink-200 */
+  --color-bilibili-pink: #ec4899;
+  /* pink-500 equivalent */
+
+  /* 字体家族 */
+  --font-family-serif: Merriweather, 'ZCOOL KaiTi', serif;
+  --font-family-sans: Inter, 'Noto Sans SC', sans-serif;
+  --font-family-kai: 'ZCOOL KaiTi', KaiTi, STKaiti, serif;
+
+  /* 动画常量 */
+  --animate-floating: floating 15s ease-in-out infinite;
+
+  @keyframes floating {
+
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+}
+
+body {
+  background-color: var(--color-cream-100);
+  color: var(--color-warm-text);
+  font-family: var(--font-family-kai);
+  margin: 0;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  pointer-events: none;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZURpcmVjdGlvbj0iMC44IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI24pIi8+PC9zdmc+');
+  opacity: 0.04;
+}
+
+* {
+  box-sizing: border-box;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
