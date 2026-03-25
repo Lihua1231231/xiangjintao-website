@@ -54,14 +54,14 @@ export default async function handler(req: Request) {
         const timeContext = `[系统强制提示：今天是现实世界中的 ${currentDate}。请严格基于此日期计算年龄或时间间隔。]\n`;
         const systemPrompt = `${timeContext}${SOUL_PROMPT}\n\n以下是向金涛的客观背景资料：\n${PROFILE_KNOWLEDGE}`;
 
-        const response = await fetch('https://newapi.deepwisdom.ai/v1/chat/completions', {
+        const response = await fetch('https://api.siliconflow.cn/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.DEEPWISDOM_API_KEY}`,
+                'Authorization': `Bearer ${process.env.SILICONFLOW_API_KEY}`,
             },
             body: JSON.stringify({
-                model: 'claude-opus-4-6',
+                model: 'MiniMax/MiniMax-M1',
                 messages: [
                     { role: 'system', content: systemPrompt },
                     ...safeMessages
