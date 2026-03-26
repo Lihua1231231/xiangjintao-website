@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { FileText, Phone, MessageCircle, Mail, X } from 'lucide-react';
 import { portfolioData } from './portfolioData';
 import type { ContactInfo } from './portfolioData';
@@ -19,6 +19,33 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener('scroll', checkScroll);
+    const ro = new ResizeObserver(checkScroll);
+    ro.observe(el);
+    return () => { el.removeEventListener('scroll', checkScroll); ro.disconnect(); };
+  }, [checkScroll]);
+
+  const scroll = (dir: 'left' | 'right') => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === 'left' ? -280 : 280, behavior: 'smooth' });
+  };
 
   const handleResumeClick = () => {
     setShowPasswordModal(true);
@@ -156,10 +183,28 @@ function App() {
                 <h3 className="text-[10px] text-white/60 uppercase tracking-widest m-0">SELECTED WORKS</h3>
                 <span className="text-[10px] text-white/40 tracking-widest">(可以点击查看)</span>
               </div>
-              <div className="flex-1 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide items-stretch">
-                {portfolioData.works.map((work, index) => (
-                  <ProjectCard key={index} work={work} index={index} />
-                ))}
+              <div className="flex-1 relative">
+                {canScrollLeft && (
+                  <>
+                    <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-warm-brown/60 to-transparent z-10 pointer-events-none rounded-l-xl" />
+                    <button onClick={() => scroll('left')} className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white/80 hover:bg-white/30 transition-colors">
+                      ‹
+                    </button>
+                  </>
+                )}
+                {canScrollRight && (
+                  <>
+                    <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-warm-brown/60 to-transparent z-10 pointer-events-none rounded-r-xl" />
+                    <button onClick={() => scroll('right')} className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white/80 hover:bg-white/30 transition-colors">
+                      ›
+                    </button>
+                  </>
+                )}
+                <div ref={scrollRef} className="flex h-full overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide items-stretch">
+                  {portfolioData.works.map((work, index) => (
+                    <ProjectCard key={index} work={work} index={index} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
