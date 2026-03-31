@@ -1,5 +1,14 @@
 import { SOUL_PROMPT, PROFILE_KNOWLEDGE } from '../src/config/systemPrompt';
 
+type ChatMessage = {
+    role: 'system' | 'user' | 'assistant';
+    content: string;
+};
+
+type ChatRequest = {
+    messages: ChatMessage[];
+};
+
 export const config = {
     runtime: 'edge',
 };
@@ -10,7 +19,7 @@ export default async function handler(req: Request) {
     }
 
     try {
-        const { messages } = await req.json();
+        const { messages } = await req.json() as ChatRequest;
 
         // 提取最新用户输入
         const lastMessage = messages[messages.length - 1];
@@ -48,7 +57,7 @@ export default async function handler(req: Request) {
         }
 
         // 过滤器：清理掉前端可能传来的历史系统提示词，防止角色设定失效
-        const safeMessages = messages.filter((m: any) => m.role !== 'system');
+        const safeMessages = messages.filter((message) => message.role !== 'system');
 
         const currentDate = new Date().toLocaleDateString('zh-CN');
         const timeContext = `[系统强制提示：今天是现实世界中的 ${currentDate}。请严格基于此日期计算年龄或时间间隔。]\n`;
@@ -82,8 +91,9 @@ export default async function handler(req: Request) {
                 'Connection': 'keep-alive',
             },
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
         console.error('Chat API Error:', error);
-        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+        return new Response(JSON.stringify({ error: message }), { status: 500 });
     }
 }

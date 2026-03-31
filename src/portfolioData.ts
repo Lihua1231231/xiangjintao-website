@@ -122,8 +122,6 @@ export const portfolioData = {
 
   // ========== 7. AI 对话配置 ==========
   ai: {
-    model: "Qwen/Qwen2.5-72B-Instruct",
-    welcomeMessage: "你好！我是向金涛的 AI 助手。你可以问我关于金涛的经历、项目或任何你感兴趣的事情。",
-    systemPrompt: "我是向金涛的官方 AI 助手。我将基于知识库为你提供准确的信息。"
+    welcomeMessage: "你好，我是向金涛的数字分身。你可以直接问我经历、项目、研究，或者我怎么看一些问题。"
   }
 };
