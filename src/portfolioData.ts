@@ -18,9 +18,8 @@ export interface WorkItem {
   accentColor: string;
   badge?: string;
   featured?: boolean;
-}
-
-export const portfolioData = {
+  coverImage?: string;
+}export const portfolioData = {
   // ========== 1. 基本信息 ==========
   name: "向金涛",
   tagline: "积极主动 | 稳重可靠 | 善于思考",

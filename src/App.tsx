@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { FileText, Phone, MessageCircle, Mail, X } from 'lucide-react';
+import { FileText, Phone, MessageCircle, Mail, X, Check, Copy, Bot } from 'lucide-react';
 import { portfolioData } from './portfolioData';
 import type { ContactInfo } from './portfolioData';
 import { ImageCarousel } from './components/ImageCarousel';
@@ -19,6 +19,9 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const aiChatRef = useRef<HTMLDivElement>(null);
+  const [showChatFab, setShowChatFab] = useState(true);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -40,6 +43,20 @@ function App() {
     ro.observe(el);
     return () => { el.removeEventListener('scroll', checkScroll); ro.disconnect(); };
   }, [checkScroll]);
+
+  useEffect(() => {
+    const el = aiChatRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => {
+      setShowChatFab(!entry.isIntersecting);
+    }, { threshold: 0.1 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const scrollToChat = () => {
+    aiChatRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current;
@@ -64,6 +81,12 @@ function App() {
     }
   };
 
+  const handleCopyContact = (value: string, index: number) => {
+    navigator.clipboard.writeText(value);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 1500);
+  };
+
   return (
     <div className="relative min-h-screen bg-cream-100 py-6 px-4 md:px-6 lg:px-8 overflow-hidden">
       {/* 底部环境深度：3 个极慢运动的环境光晕球 */}
@@ -79,9 +102,9 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
           {/* 左侧：照片焦点卡片 - 占 1 列 (50%) */}
-          <div className="lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl shadow-md overflow-hidden flex flex-col h-full w-full">
+          <div className="lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl shadow-md overflow-hidden flex flex-col h-full w-full animate-reveal">
             {/* 图片轮播区域 - 锁定高度改为比例自适应 */}
-            <div className="aspect-[4/3] sm:aspect-[3/4] lg:aspect-square overflow-hidden relative">
+            <div className="aspect-[4/3] overflow-hidden relative">
               <ImageCarousel
                 images={portfolioData.photos}
                 alt={`${portfolioData.name}的照片`}
@@ -112,13 +135,22 @@ function App() {
                 </h3>
                 <div className="space-y-0.5">
                   {portfolioData.contacts.map((contact, index) => (
-                    <div key={index} className="group flex items-center gap-2.5 text-sm text-contact-icon hover:bg-white/10 rounded-lg px-2 py-1.5 -mx-2 transition-all duration-200">
+                    <button
+                      key={index}
+                      onClick={() => handleCopyContact(contact.value, index)}
+                      className="group w-full flex items-center gap-2.5 text-sm text-contact-icon hover:bg-white/10 rounded-lg px-2 py-1.5 -mx-2 transition-all duration-200 cursor-pointer text-left"
+                    >
                       <ContactIcon
                         type={contact.icon}
                         className="w-3.5 h-3.5 text-contact-icon/60 transition-colors group-hover:text-contact-icon"
                       />
-                      <span>{contact.value}</span>
-                    </div>
+                      <span className="flex-1">{contact.value}</span>
+                      {copiedIndex === index ? (
+                        <Check className="w-3 h-3 text-green-500 transition-opacity" />
+                      ) : (
+                        <Copy className="w-3 h-3 text-contact-icon/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      )}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -140,7 +172,7 @@ function App() {
           <div className="lg:col-span-1 flex flex-col gap-4">
 
             {/* 右上：信息中心卡片 (ISFJ + 兴趣爱好) */}
-            <div className="bg-gradient-to-br from-warm-accent to-warm-brown rounded-2xl shadow-md p-4 sm:p-5 text-white flex flex-col flex-none h-fit">
+            <div className="bg-gradient-to-br from-warm-accent to-warm-brown rounded-2xl shadow-md p-4 sm:p-5 text-white flex flex-col flex-none h-fit animate-reveal" style={{ animationDelay: '120ms' }}>
               {/* ISFJ 部分 */}
               <div className="pb-3 border-b border-white/20">
                 <div className="text-3xl sm:text-4xl font-serif font-bold mb-1">
@@ -178,7 +210,7 @@ function App() {
             </div>
 
             {/* 右下：横向滑动作品集 */}
-            <div className="flex-1 bg-gradient-to-br from-warm-brown to-warm-accent rounded-2xl shadow-md p-5 sm:p-6 text-white flex flex-col overflow-hidden relative">
+            <div className="flex-1 bg-gradient-to-br from-warm-brown to-warm-accent rounded-2xl shadow-md p-5 sm:p-6 text-white flex flex-col overflow-hidden relative animate-reveal" style={{ animationDelay: '240ms' }}>
               <div className="flex items-center gap-2 mb-3 shrink-0">
                 <h3 className="text-[10px] text-white/60 uppercase tracking-widest m-0">SELECTED WORKS</h3>
                 <span className="text-[10px] text-white/40 tracking-widest">(可以点击查看)</span>
@@ -211,7 +243,7 @@ function App() {
         </div>
 
         {/* 底部：AI 对话区域 */}
-        <div className="bg-white rounded-2xl shadow-md p-6">
+        <div ref={aiChatRef} className="bg-[#1a1510] rounded-2xl shadow-md p-6 animate-reveal" style={{ animationDelay: '360ms' }}>
           <AIChat
             welcomeMessage={portfolioData.ai.welcomeMessage}
           />
@@ -222,6 +254,19 @@ function App() {
           <p>© 2026 {portfolioData.name}</p>
         </footer>
       </div>
+
+      {/* 浮动 AI 对话引导按钮 */}
+      {showChatFab && (
+        <button
+          onClick={scrollToChat}
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 bg-[#1a1510] text-warm-accent border border-warm-accent/20 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm animate-reveal"
+          style={{ animationDelay: '600ms' }}
+        >
+          <Bot className="w-4 h-4" />
+          <span className="text-sm font-medium">和我聊聊</span>
+        </button>
+      )}
+
       {/* 密码弹窗 */}
       {showPasswordModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4" onClick={() => setShowPasswordModal(false)}>

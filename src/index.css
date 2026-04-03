@@ -31,6 +31,7 @@
 
   /* 动画常量 */
   --animate-floating: floating 15s ease-in-out infinite;
+  --animate-reveal: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @keyframes floating {
 
@@ -45,6 +46,17 @@
 
     66% {
       transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }

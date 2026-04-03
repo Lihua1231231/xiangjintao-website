@@ -301,9 +301,9 @@ export const AIChat: React.FC<AIChatProps> = ({
             />
 
             {/* 聊天标题 */}
-            <div className="flex items-center gap-2 pb-4 border-b border-warm-brown/20 relative z-10">
-                <Bot className="w-6 h-6 text-warm-brown" />
-                <h3 className="text-xl font-serif font-bold text-warm-text">与我对话</h3>
+            <div className="flex items-center gap-2 pb-4 border-b border-warm-accent/20 relative z-10">
+                <Bot className="w-6 h-6 text-warm-accent" />
+                <h3 className="text-xl font-serif font-bold text-cream-100">与我对话</h3>
             </div>
 
             {/* 聊天消息区域 */}
@@ -326,13 +326,13 @@ export const AIChat: React.FC<AIChatProps> = ({
                         <div
                             className={`flex-1 px-4 py-3 rounded-2xl ${message.role === 'user'
                                 ? 'bg-warm-accent text-white'
-                                : 'bg-cream-200 text-warm-text'
+                                : 'bg-white/10 text-cream-100'
                                 }`}
                             style={{ maxWidth: '80%' }}
                         >
-                            <div className="prose prose-sm max-w-none">
+                            <div className="prose prose-sm prose-invert max-w-none">
                                 {isLoading && message.role === 'assistant' && message.content === '' ? (
-                                    <Loader2 className="w-5 h-5 text-warm-brown animate-spin" />
+                                    <Loader2 className="w-5 h-5 text-warm-accent animate-spin" />
                                 ) : (
                                     <ReactMarkdown>{message.content}</ReactMarkdown>
                                 )}
@@ -345,21 +345,21 @@ export const AIChat: React.FC<AIChatProps> = ({
             </div>
 
             {/* 输入区域 */}
-            <div className="pt-4 border-t border-warm-brown/20 relative z-10">
+            <div className="pt-4 border-t border-warm-accent/20 relative z-10">
                 <div className="flex gap-2">
                     <input
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyDown={handleKeyPress}
                         placeholder="问我关于向金涛的任何问题..."
                         disabled={isLoading}
-                        className="flex-1 px-4 py-3 rounded-xl bg-cream-200 border-2 border-transparent focus:border-warm-brown focus:outline-none text-warm-text placeholder-warm-brown/50 disabled:opacity-50"
+                        className="flex-1 px-4 py-3 rounded-xl bg-white/10 border-2 border-transparent focus:border-warm-accent focus:outline-none text-cream-100 placeholder-cream-300/50 disabled:opacity-50"
                     />
                     <button
                         onClick={sendMessage}
                         disabled={!input.trim() || isLoading}
-                        className="px-6 py-3 bg-warm-brown hover:bg-warm-brown/90 disabled:bg-warm-brown/50 text-white rounded-xl transition-colors duration-200 flex items-center gap-2 font-medium"
+                        className="px-6 py-3 bg-warm-accent hover:bg-warm-accent/90 disabled:bg-warm-accent/50 text-white rounded-xl transition-colors duration-200 flex items-center gap-2 font-medium"
                     >
                         {isLoading && messages[messages.length - 1].content === '' ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
