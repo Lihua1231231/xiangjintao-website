@@ -9,7 +9,7 @@ interface ProjectCardProps {
 export function ProjectCard({ work }: ProjectCardProps) {
   return (
     <div
-      className="group flex flex-col snap-start shrink-0 w-full sm:max-w-[16rem] h-full p-5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 transition-all duration-300 hover:-translate-y-1 backdrop-blur-md relative overflow-hidden"
+      className="group flex flex-col snap-start shrink-0 w-full sm:max-w-[14rem] h-full p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 transition-all duration-300 hover:-translate-y-1 backdrop-blur-md relative overflow-hidden"
       style={{
         borderLeftWidth: '3px',
         borderLeftColor: work.accentColor,
@@ -40,14 +40,14 @@ export function ProjectCard({ work }: ProjectCardProps) {
       </div>
 
       {/* Description */}
-      <div className="text-sm text-white/70 leading-relaxed mb-3 space-y-1">
+      <div className="text-xs text-white/70 leading-relaxed mb-2 space-y-1 line-clamp-3">
         {work.description.split('\n').map((line, i) => (
           <p key={i}>{line}</p>
         ))}
       </div>
 
       {/* Tags */}
-      <div className="flex gap-1.5 flex-wrap mb-4">
+      <div className="flex gap-1.5 flex-wrap mb-3">
         {work.tags.map((tag, tIdx) => (
           <span
             key={tIdx}

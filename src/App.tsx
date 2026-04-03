@@ -99,10 +99,10 @@ function App() {
       <div className="max-w-6xl mx-auto space-y-4 relative z-10">
 
         {/* 紧凑的 Bento Grid 布局 (1:1等分比例) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:items-start">
 
           {/* 左侧：照片焦点卡片 - 占 1 列 (50%) */}
-          <div className="lg:col-span-1 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl shadow-md overflow-hidden flex flex-col h-full w-full animate-reveal">
+          <div className="lg:col-span-1 bg-white/80 backdrop-blur-xl border border-warm-brown/8 rounded-2xl shadow-lg shadow-warm-brown/5 overflow-hidden flex flex-col w-full animate-reveal">
             {/* 图片轮播区域 - 锁定高度改为比例自适应 */}
             <div className="aspect-[4/3] overflow-hidden relative">
               <ImageCarousel
@@ -112,7 +112,7 @@ function App() {
             </div>
 
             {/* 底部文字区域 - 极其紧凑 */}
-            <div className="p-4 flex-1 flex flex-col">
+            <div className="p-4 flex flex-col">
               <div className="space-y-0.5">
                 {/* 姓名 */}
                 <h1 className="text-xl font-serif font-bold text-warm-text">
@@ -126,7 +126,7 @@ function App() {
               </div>
 
               {/* 极其紧凑的分割线 */}
-              <div className="my-4 border-t border-white/10" />
+              <div className="my-4 border-t border-warm-brown/10" />
 
               {/* 联系信息区域 - 压缩间距 */}
               <div>
@@ -138,7 +138,7 @@ function App() {
                     <button
                       key={index}
                       onClick={() => handleCopyContact(contact.value, index)}
-                      className="group w-full flex items-center gap-2.5 text-sm text-contact-icon hover:bg-white/10 rounded-lg px-2 py-1.5 -mx-2 transition-all duration-200 cursor-pointer text-left"
+                      className="group w-full flex items-center gap-2.5 text-sm text-contact-icon hover:bg-warm-brown/5 rounded-lg px-2 py-1.5 -mx-2 transition-all duration-200 cursor-pointer text-left"
                     >
                       <ContactIcon
                         type={contact.icon}
@@ -156,7 +156,7 @@ function App() {
               </div>
 
               {/* 查看简历按钮 */}
-              <div className="mt-6 pt-4 border-t border-white/10">
+              <div className="mt-4 pt-3 border-t border-warm-brown/10">
                 <button
                   onClick={handleResumeClick}
                   className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-warm-brown/10 border border-warm-brown/20 hover:bg-warm-brown/20 text-warm-brown rounded-xl font-medium transition-all duration-200 hover:scale-[1.02] shadow-sm backdrop-blur-sm text-sm"
@@ -210,7 +210,7 @@ function App() {
             </div>
 
             {/* 右下：横向滑动作品集 */}
-            <div className="flex-1 bg-gradient-to-br from-warm-brown to-warm-accent rounded-2xl shadow-md p-5 sm:p-6 text-white flex flex-col overflow-hidden relative animate-reveal" style={{ animationDelay: '240ms' }}>
+            <div className="flex-1 bg-gradient-to-br from-warm-brown to-warm-accent rounded-2xl shadow-md p-4 sm:p-5 text-white flex flex-col overflow-hidden relative animate-reveal" style={{ animationDelay: '240ms' }}>
               <div className="flex items-center gap-2 mb-3 shrink-0">
                 <h3 className="text-[10px] text-white/60 uppercase tracking-widest m-0">SELECTED WORKS</h3>
                 <span className="text-[10px] text-white/40 tracking-widest">(可以点击查看)</span>
@@ -243,7 +243,7 @@ function App() {
         </div>
 
         {/* 底部：AI 对话区域 */}
-        <div ref={aiChatRef} className="bg-[#1a1510] rounded-2xl shadow-md p-6 animate-reveal" style={{ animationDelay: '360ms' }}>
+        <div ref={aiChatRef} className="bg-gradient-to-b from-[#2a1f14] to-[#1a1510] rounded-3xl shadow-md p-6 border border-warm-accent/10 animate-reveal" style={{ animationDelay: '360ms' }}>
           <AIChat
             welcomeMessage={portfolioData.ai.welcomeMessage}
           />
@@ -259,7 +259,7 @@ function App() {
       {showChatFab && (
         <button
           onClick={scrollToChat}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 bg-[#1a1510] text-warm-accent border border-warm-accent/20 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm animate-reveal"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 bg-[#2a1f14] text-warm-accent border border-warm-accent/20 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 backdrop-blur-sm animate-reveal"
           style={{ animationDelay: '600ms' }}
         >
           <Bot className="w-4 h-4" />
