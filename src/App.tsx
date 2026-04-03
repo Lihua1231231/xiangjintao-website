@@ -218,21 +218,21 @@ function App() {
               <div className="flex-1 relative">
                 {canScrollLeft && (
                   <>
-                    <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-warm-brown/60 to-transparent z-10 pointer-events-none rounded-l-xl" />
-                    <button onClick={() => scroll('left')} className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white/80 hover:bg-white/30 transition-colors">
+                    <div className="hidden sm:block absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-warm-brown/60 to-transparent z-10 pointer-events-none rounded-l-xl" />
+                    <button onClick={() => scroll('left')} className="hidden sm:flex absolute left-1 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm items-center justify-center text-white/80 hover:bg-white/30 transition-colors">
                       ‹
                     </button>
                   </>
                 )}
                 {canScrollRight && (
                   <>
-                    <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-warm-brown/60 to-transparent z-10 pointer-events-none rounded-r-xl" />
-                    <button onClick={() => scroll('right')} className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white/80 hover:bg-white/30 transition-colors">
+                    <div className="hidden sm:block absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-warm-brown/60 to-transparent z-10 pointer-events-none rounded-r-xl" />
+                    <button onClick={() => scroll('right')} className="hidden sm:flex absolute right-1 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm items-center justify-center text-white/80 hover:bg-white/30 transition-colors">
                       ›
                     </button>
                   </>
                 )}
-                <div ref={scrollRef} className="flex h-full overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide items-stretch">
+                <div ref={scrollRef} className="flex flex-col sm:flex-row sm:h-full sm:overflow-x-auto sm:snap-x sm:snap-mandatory gap-4 pb-4 sm:scrollbar-hide sm:items-stretch">
                   {portfolioData.works.map((work, index) => (
                     <ProjectCard key={index} work={work} index={index} />
                   ))}

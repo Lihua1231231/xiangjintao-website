@@ -9,7 +9,7 @@ interface ProjectCardProps {
 export function ProjectCard({ work }: ProjectCardProps) {
   return (
     <div
-      className="group flex flex-col snap-start shrink-0 w-full max-w-[16rem] h-full p-5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 transition-all duration-300 hover:-translate-y-1 backdrop-blur-md relative overflow-hidden"
+      className="group flex flex-col snap-start shrink-0 w-full sm:max-w-[16rem] h-full p-5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/10 transition-all duration-300 hover:-translate-y-1 backdrop-blur-md relative overflow-hidden"
       style={{
         borderLeftWidth: '3px',
         borderLeftColor: work.accentColor,
