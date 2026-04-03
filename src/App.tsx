@@ -99,10 +99,10 @@ function App() {
       <div className="max-w-6xl mx-auto space-y-4 relative z-10">
 
         {/* 紧凑的 Bento Grid 布局 (1:1等分比例) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
           {/* 左侧：照片焦点卡片 - 占 1 列 (50%) */}
-          <div className="lg:col-span-1 bg-white/80 backdrop-blur-xl border border-warm-brown/8 rounded-2xl shadow-lg shadow-warm-brown/5 overflow-hidden flex flex-col w-full animate-reveal">
+          <div className="lg:col-span-1 bg-white/80 backdrop-blur-xl border border-warm-brown/8 rounded-2xl shadow-lg shadow-warm-brown/5 overflow-hidden flex flex-col h-full w-full animate-reveal">
             {/* 图片轮播区域 - 锁定高度改为比例自适应 */}
             <div className="aspect-[4/3] overflow-hidden relative">
               <ImageCarousel
@@ -112,7 +112,7 @@ function App() {
             </div>
 
             {/* 底部文字区域 - 极其紧凑 */}
-            <div className="p-4 flex flex-col">
+            <div className="p-4 flex-1 flex flex-col">
               <div className="space-y-0.5">
                 {/* 姓名 */}
                 <h1 className="text-xl font-serif font-bold text-warm-text">
@@ -156,7 +156,7 @@ function App() {
               </div>
 
               {/* 查看简历按钮 */}
-              <div className="mt-4 pt-3 border-t border-warm-brown/10">
+              <div className="mt-auto pt-3 border-t border-warm-brown/10">
                 <button
                   onClick={handleResumeClick}
                   className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-warm-brown/10 border border-warm-brown/20 hover:bg-warm-brown/20 text-warm-brown rounded-xl font-medium transition-all duration-200 hover:scale-[1.02] shadow-sm backdrop-blur-sm text-sm"
